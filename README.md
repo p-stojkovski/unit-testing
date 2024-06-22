@@ -64,3 +64,8 @@ Order of execution:
 ### Testing internal methods
 - in new class set: [assembly: InternalsVisibleTo("TESTPROJECTNAME")] -> not recommended way
 - Edit .csproj file and add new ItemGroup and add <InternalsVisibleTo Include="TESTPROJECTNAME" /> -> recommended
+
+### What is mocking
+- Idea of creating an implmentations of interfaces or virtual methods on abstract classes during runtime to behave as we want.
+- NSubstitute to create moq -> Substitute.For<Interface>();
+- Moq is an inmemory implementation of an interface that allows us to specify specific behaviour for specific functionality
