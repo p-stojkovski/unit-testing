@@ -69,3 +69,10 @@ Order of execution:
 - Idea of creating an implmentations of interfaces or virtual methods on abstract classes during runtime to behave as we want.
 - NSubstitute to create moq -> Substitute.For<Interface>();
 - Moq is an inmemory implementation of an interface that allows us to specify specific behaviour for specific functionality
+
+### The Class Fixture
+IClassFixture<T>, very common technique when you want to share any type of dbConnections, docker connections, any type of connection or data that needs to be shared across multiple tests.
+
+### The Collection Fixture
+- Shared scoped, context, across mulitple test classes using CollectionFixture.
+- ICollectionFixture<TClassFixture> with attribute [CollectionDefinition("My collection fixture")] -> use on every tedt class
