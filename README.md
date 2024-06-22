@@ -75,4 +75,4 @@ IClassFixture<T>, very common technique when you want to share any type of dbCon
 
 ### The Collection Fixture
 - Shared scoped, context, across mulitple test classes using CollectionFixture.
-- ICollectionFixture<TClassFixture> with attribute [CollectionDefinition("My collection fixture")] -> use on every tedt class
+- Define new class with ICollectionFixture<TClassFixture> with attribute [CollectionDefinition("My collection fixture")] -> use on every test class
