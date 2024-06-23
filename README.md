@@ -76,3 +76,12 @@ IClassFixture<T>, very common technique when you want to share any type of dbCon
 ### The Collection Fixture
 - Shared scoped, context, across mulitple test classes using CollectionFixture.
 - Define new class with ICollectionFixture<TClassFixture> with attribute [CollectionDefinition("My collection fixture")] -> use on every test class
+
+### Running test in parallel
+- By default XUnit treats each test class as a collection and a test within a collection do not run in parallel.
+- Test within a single collection runs one after another.
+- Independent collections of eachother will run in parallel.
+- [assembly: CollectionBehavior(CollectionBehaviuor.)] or [assembly: CollectionBehavior(DisableTestParallelization = true)] for overriding collection behavior -> not recommended.
+- [assembly: CollectionBehavior(DisableTestParallelization = true)] usefull if you have single database instance across any test and you don't want have any clashing, competing tests running in parallel.
+- [assembly: CollectionBehavior(MaxParallelThreads = )]
+- Can also be overriden in the [CollectionDefinition]
