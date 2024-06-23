@@ -97,3 +97,18 @@ If need to have a lot of test data used as a Theory and InlineData, you have two
    - ClassName : IEnumerable<object[]> -> GetEnumerator() => yield return new object [] { data, data };
    - [Theory]
    - [ClassData(typeOf(Class))]
+
+### Test execution timeouts
+- If you have a long running test for any reason that should be done quicly, you can set timeout execution for that test.
+- [Fact(Timeout = miliseconds)] -> if running more than specified miliseconds, fail this test.
+
+### Testing Date and Time
+- Always inject IDateTimeProvider and mock the date.
+
+### Measuring code coverage
+- dotnet tool install -g  coverlet.console
+- dotnet build
+- coverlet \.bin\Debug\net8.0\Users.Api.Tests.dll --target "dotnet" --targetargs "test --no-build"
+- dotnet test --collect:"XPlat Code Coverage" -> generating test results in xml file
+- dotnet tool install -g dotnet-reportgenerator-globaltool
+- reportgenerator -reports:".\TestResults\<FolderNumber>\coverage.cobertura.xml" -targetdir:"codecoverage" -reporttypes:Html
