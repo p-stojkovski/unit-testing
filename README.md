@@ -85,3 +85,15 @@ IClassFixture<T>, very common technique when you want to share any type of dbCon
 - [assembly: CollectionBehavior(DisableTestParallelization = true)] usefull if you have single database instance across any test and you don't want have any clashing, competing tests running in parallel.
 - [assembly: CollectionBehavior(MaxParallelThreads = )]
 - Can also be overriden in the [CollectionDefinition]
+
+### Advanced parameterization
+If need to have a lot of test data used as a Theory and InlineData, you have two options available:
+1. Member data 
+   - Creating method within the same class of the test that returns the needed data, instead of having inline data, you point to that method.
+   - [Theory]
+   - [MemberData(nameOf(Method))]
+2. Class data
+   - New class specificly designed to return dinamicly all the parametars needed for the tests.
+   - ClassName : IEnumerable<object[]> -> GetEnumerator() => yield return new object [] { data, data };
+   - [Theory]
+   - [ClassData(typeOf(Class))]
