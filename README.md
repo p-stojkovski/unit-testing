@@ -69,3 +69,46 @@ Order of execution:
 - Idea of creating an implmentations of interfaces or virtual methods on abstract classes during runtime to behave as we want.
 - NSubstitute to create moq -> Substitute.For<Interface>();
 - Moq is an inmemory implementation of an interface that allows us to specify specific behaviour for specific functionality
+
+### The Class Fixture
+IClassFixture<T>, very common technique when you want to share any type of dbConnections, docker connections, any type of connection or data that needs to be shared across multiple tests.
+
+### The Collection Fixture
+- Shared scoped, context, across mulitple test classes using CollectionFixture.
+- Define new class with ICollectionFixture<TClassFixture> with attribute [CollectionDefinition("My collection fixture")] -> use on every test class
+
+### Running test in parallel
+- By default XUnit treats each test class as a collection and a test within a collection do not run in parallel.
+- Test within a single collection runs one after another.
+- Independent collections of eachother will run in parallel.
+- [assembly: CollectionBehavior(CollectionBehaviuor.)] or [assembly: CollectionBehavior(DisableTestParallelization = true)] for overriding collection behavior -> not recommended.
+- [assembly: CollectionBehavior(DisableTestParallelization = true)] usefull if you have single database instance across any test and you don't want have any clashing, competing tests running in parallel.
+- [assembly: CollectionBehavior(MaxParallelThreads = )]
+- Can also be overriden in the [CollectionDefinition]
+
+### Advanced parameterization
+If need to have a lot of test data used as a Theory and InlineData, you have two options available:
+1. Member data 
+   - Creating method within the same class of the test that returns the needed data, instead of having inline data, you point to that method.
+   - [Theory]
+   - [MemberData(nameOf(Method))]
+2. Class data
+   - New class specificly designed to return dinamicly all the parametars needed for the tests.
+   - ClassName : IEnumerable<object[]> -> GetEnumerator() => yield return new object [] { data, data };
+   - [Theory]
+   - [ClassData(typeOf(Class))]
+
+### Test execution timeouts
+- If you have a long running test for any reason that should be done quicly, you can set timeout execution for that test.
+- [Fact(Timeout = miliseconds)] -> if running more than specified miliseconds, fail this test.
+
+### Testing Date and Time
+- Always inject IDateTimeProvider and mock the date.
+
+### Measuring code coverage
+- dotnet tool install -g  coverlet.console
+- dotnet build
+- coverlet \.bin\Debug\net8.0\Users.Api.Tests.dll --target "dotnet" --targetargs "test --no-build"
+- dotnet test --collect:"XPlat Code Coverage" -> generating test results in xml file
+- dotnet tool install -g dotnet-reportgenerator-globaltool
+- reportgenerator -reports:".\TestResults\<FolderNumber>\coverage.cobertura.xml" -targetdir:"codecoverage" -reporttypes:Html
